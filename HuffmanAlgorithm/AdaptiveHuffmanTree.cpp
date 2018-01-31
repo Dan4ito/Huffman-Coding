@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "AdaptiveHuffmanTree.h"
-
 static AdaptiveHuffmanTreeNode*& copy(const AdaptiveHuffmanTreeNode* other) {
 	AdaptiveHuffmanTreeNode* newNode;
 	if (other == NULL) {
@@ -12,7 +11,6 @@ static AdaptiveHuffmanTreeNode*& copy(const AdaptiveHuffmanTreeNode* other) {
 		return newNode;
 	}
 };
-
 void AdaptiveHuffmanTree::destroy(AdaptiveHuffmanTreeNode* crr) {
 	if (crr == NULL) return;
 	else {
@@ -53,11 +51,9 @@ string AdaptiveHuffmanTree::getPath_helper(AdaptiveHuffmanTreeNode* root, const 
 		return "Not Here";
 	}
 	if (root->c == symbol) return path;
-
 	else
 	{
 		path = getPath_helper(root->left, symbol, path + '0');
-
 		if (path == "Not Here") {
 			path = "";
 			path = getPath_helper(root->right, symbol, path + '1');
@@ -92,13 +88,11 @@ AdaptiveHuffmanTree::AdaptiveHuffmanTree() {
 AdaptiveHuffmanTree::~AdaptiveHuffmanTree() {
 	destroy(root);
 }
-
 void AdaptiveHuffmanTree::addAllWithSameWeight(int weight, vector<AdaptiveHuffmanTreeNode*>& nodes, AdaptiveHuffmanTreeNode* node, AdaptiveHuffmanTreeNode* root) {
 	if (root == NULL) return;
 	if (root->cfreq == weight && root != node) nodes.push_back(root);
 	addAllWithSameWeight(weight, nodes, node, root->left);
 	addAllWithSameWeight(weight, nodes, node, root->right);
-
 }
 void AdaptiveHuffmanTree::searchSameWeightNodesAndSwap(AdaptiveHuffmanTreeNode*& node) {
 	if (node->parent == NULL) return;
@@ -114,15 +108,11 @@ void AdaptiveHuffmanTree::searchSameWeightNodesAndSwap(AdaptiveHuffmanTreeNode*&
 		}
 	}
 	if (node->order < nodeToSwap->order) {
-
 		AdaptiveHuffmanTreeNode *&firstRef = node->parent->left == node ? node->parent->left : node->parent->right;
 		AdaptiveHuffmanTreeNode *&secondRef = nodeToSwap->parent->left == nodeToSwap ? nodeToSwap->parent->left : nodeToSwap->parent->right;
-
 		std::swap(firstRef, secondRef);
 		std::swap(firstRef->parent, secondRef->parent);
 		std::swap(firstRef->order, secondRef->order);
-
-
 	}
 }
 void AdaptiveHuffmanTree::growTree(const char& symbol) {
@@ -137,14 +127,10 @@ void AdaptiveHuffmanTree::growTree(const char& symbol) {
 		NYTnode->right = new AdaptiveHuffmanTreeNode(symbol, 0, NULL, NULL, NYTnode->order - 1, false, NYTnode);
 		NYTnode->left = new AdaptiveHuffmanTreeNode(0, 0, NULL, NULL, NYTnode->order - 2, true, NYTnode);
 		updateTree(NYTnode->right);
-
-
 	}
 }
 void AdaptiveHuffmanTree::decode(string inFile, string outFile) {
-
 	AdaptiveHuffmanTreeNode* currentNode = root;
-
 	ifstream in;
 	in.open(inFile);
 	if (!in)
@@ -153,17 +139,14 @@ void AdaptiveHuffmanTree::decode(string inFile, string outFile) {
 		cerr << "Opening error!" << endl;
 		return;
 	}
-
 	ofstream out;
 	out.open(outFile);
-
 	if (!out)
 	{
 		// Print an error and exit
 		cerr << "Opening error!" << endl;
 		return;
 	}
-
 	char symbolToRead;
 	char symbolFromBits;
 	char actualLetter;
@@ -198,13 +181,9 @@ void AdaptiveHuffmanTree::decode(string inFile, string outFile) {
 	in.close();
 	cout << "original:" << endl;
 	cout << text;
-
 	inFile = "";
 	outFile = "";
 	cout << endl;
-
-
-
 }
 void AdaptiveHuffmanTree::encode(const char& symbol, ofstream& out, string& binaryRepresentation) {
 	string path;

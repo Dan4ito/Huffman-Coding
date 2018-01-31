@@ -2,7 +2,6 @@
 #include "Utilities.h"
 #include <fstream>
 #include <string>
-
 using namespace std;
 // A Huffman Tree Node
 struct AdaptiveHuffmanTreeNode {
@@ -13,19 +12,14 @@ struct AdaptiveHuffmanTreeNode {
 	int order;
 	bool NYT;		// not yet transmitted
 	struct AdaptiveHuffmanTreeNode *parent;
-
 	AdaptiveHuffmanTreeNode(char c, int cfreq, AdaptiveHuffmanTreeNode *left = NULL,
 		struct AdaptiveHuffmanTreeNode *right = NULL, int order = 512, bool NYT = false, AdaptiveHuffmanTreeNode *parent = NULL) :
 		c(c), cfreq(cfreq), left(left), right(right), order(order), NYT(NYT), parent(parent) {}
-
 };
-
 static AdaptiveHuffmanTreeNode*& copy(const AdaptiveHuffmanTreeNode* other);
-
 class AdaptiveHuffmanTree {
 private:
 	AdaptiveHuffmanTreeNode * root;
-
 	void destroy(AdaptiveHuffmanTreeNode* crr);
 	void incrementParents(AdaptiveHuffmanTreeNode* node);
 	AdaptiveHuffmanTreeNode* search_helper(AdaptiveHuffmanTreeNode* root, const char& symbol, string& path);

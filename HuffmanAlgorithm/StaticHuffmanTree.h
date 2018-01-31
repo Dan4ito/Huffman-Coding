@@ -1,14 +1,11 @@
 #pragma once
-
 #include<map>
 #include<string>
 #include<fstream>
 #include<queue>
 #include "Utilities.h"
-
 typedef std::vector<bool> BitVector;
 typedef std::map<char, BitVector> codetable;
-
 // A Huffman Tree Node
 struct HuffmanTree {
 	char c; // character in an alphabet
@@ -128,15 +125,10 @@ public:
 			in >> codes;
 			treeChars.push_back((char)codes);
 		}
-
-
 		in.get();
 		in.get();
-
-
 		int frequency;
 		std::vector<unsigned> treeFreq;
-
 		for (size_t i = 0; i < count; i++)
 		{
 			in >> frequency;
@@ -144,9 +136,7 @@ public:
 		}
 		in.get();
 		in.get();
-
 		std::vector<std::pair<char, unsigned>> charFreqVector;
-
 		std::vector<unsigned> ::iterator it1;
 		std::vector<char> ::iterator it2;
 		for (it1 = treeFreq.begin(), it2 = treeChars.begin(); (it1 != treeFreq.end() && it2 != treeChars.end()); it1++, it2++) {

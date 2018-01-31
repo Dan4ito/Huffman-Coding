@@ -2,7 +2,6 @@
 #include <vector>
 #include <iostream>
 #include<iomanip>
-
 class Utilities
 {
 public:
