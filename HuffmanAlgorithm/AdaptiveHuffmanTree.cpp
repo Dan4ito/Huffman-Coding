@@ -24,7 +24,6 @@ void AdaptiveHuffmanTree::destroy(AdaptiveHuffmanTreeNode* crr) {
 void AdaptiveHuffmanTree::incrementParents(AdaptiveHuffmanTreeNode* node) {	// if the rule : a node with a higher freq must have higher node number is violated then we do this
 	while (node != NULL) {
 		searchSameWeightNodesAndSwap(node);
-		fixParents(root);
 		node->cfreq++;
 		node = node->parent;
 	}
@@ -94,13 +93,6 @@ AdaptiveHuffmanTree::~AdaptiveHuffmanTree() {
 	destroy(root);
 }
 
-void AdaptiveHuffmanTree::fixParents(AdaptiveHuffmanTreeNode*& root) {
-	if (root->left == NULL) return;
-	root->left->parent = root;
-	root->right->parent = root;
-	fixParents(root->left);
-	fixParents(root->right);
-}
 void AdaptiveHuffmanTree::addAllWithSameWeight(int weight, vector<AdaptiveHuffmanTreeNode*>& nodes, AdaptiveHuffmanTreeNode* node, AdaptiveHuffmanTreeNode* root) {
 	if (root == NULL) return;
 	if (root->cfreq == weight && root != node) nodes.push_back(root);
@@ -122,58 +114,16 @@ void AdaptiveHuffmanTree::searchSameWeightNodesAndSwap(AdaptiveHuffmanTreeNode*&
 		}
 	}
 	if (node->order < nodeToSwap->order) {
-		AdaptiveHuffmanTreeNode* nodeToSwapParent = nodeToSwap->parent;
-		AdaptiveHuffmanTreeNode* nodeParent = node->parent;
 
-		string nodeToSwapIsChild;
-		string nodeIsChild;
+		AdaptiveHuffmanTreeNode *&firstRef = node->parent->left == node ? node->parent->left : node->parent->right;
+		AdaptiveHuffmanTreeNode *&secondRef = nodeToSwap->parent->left == nodeToSwap ? nodeToSwap->parent->left : nodeToSwap->parent->right;
 
-		if (nodeToSwapParent->left == nodeToSwap) nodeToSwapIsChild = "left";
-		else nodeToSwapIsChild = "right";
-
-		if (nodeParent->left == node) nodeIsChild = "left";
-		else nodeIsChild = "right";
-
-		AdaptiveHuffmanTreeNode* temp = copy(nodeToSwap);
-
-
-		if (nodeToSwapIsChild == "left") {
-			delete nodeToSwapParent->left;
-			nodeToSwapParent->left = copy(node);
-			nodeToSwapParent->left->parent = nodeToSwapParent;
-			nodeToSwap = nodeToSwapParent->left;
-		}
-		else {
-			delete nodeToSwapParent->right; // null?
-			nodeToSwapParent->right = copy(node);
-			nodeToSwapParent->right->parent = nodeToSwapParent;
-			nodeToSwap = nodeToSwapParent->right;
-		}
-
-
-		if (nodeIsChild == "left") {
-			delete nodeParent->left;
-			nodeParent->left = copy(temp);
-			nodeParent->left->parent = nodeParent;
-			node = nodeParent->left;
-
-		}
-		else {
-			delete nodeParent->right;
-			nodeParent->right = copy(temp);
-			nodeParent->right->parent = nodeParent;
-			node = nodeParent->right;
-		}
-
-		delete temp;
-		int tempOrder = node->order;
-		node->order = nodeToSwap->order;
-		nodeToSwap->order = tempOrder;
-		node = nodeToSwap;
+		std::swap(firstRef, secondRef);
+		std::swap(firstRef->parent, secondRef->parent);
+		std::swap(firstRef->order, secondRef->order);
 
 
 	}
-
 }
 void AdaptiveHuffmanTree::growTree(const char& symbol) {
 	string path;

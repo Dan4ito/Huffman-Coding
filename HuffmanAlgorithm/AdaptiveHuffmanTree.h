@@ -34,8 +34,6 @@ private:
 public:
 	AdaptiveHuffmanTree();
 	~AdaptiveHuffmanTree();
-
-	void fixParents(AdaptiveHuffmanTreeNode*& root);
 	void addAllWithSameWeight(int weight, vector<AdaptiveHuffmanTreeNode*>& nodes, AdaptiveHuffmanTreeNode* node, AdaptiveHuffmanTreeNode* root);
 	void searchSameWeightNodesAndSwap(AdaptiveHuffmanTreeNode*& node);
 	void growTree(const char& symbol);

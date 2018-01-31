@@ -119,23 +119,34 @@ public:
 	}
 	static std::vector<std::pair<char, unsigned>> get_freq_table(std::ifstream &in) {
 		std::string chars;
-		std::getline(in, chars);
+		int count;
+		in >> count;
+		int codes;
 		std::vector<char> treeChars;
-		for (auto elem : chars) {
-			treeChars.push_back(elem);
+		for (size_t i = 0; i < count; i++)
+		{
+			in >> codes;
+			treeChars.push_back((char)codes);
 		}
-		char letter;
-		in >> letter;
-		std::string frequency;
-		std::getline(in, frequency);
-		frequency = letter + frequency;
-		std::vector<std::string> stringTreeFrequency = Utilities::split(frequency);
-		stringTreeFrequency.pop_back();
+
+
+		in.get();
+		in.get();
+
+
+		int frequency;
 		std::vector<unsigned> treeFreq;
-		for (std::vector<std::string> ::iterator it = stringTreeFrequency.begin(); it != stringTreeFrequency.end(); it++) {
-			treeFreq.push_back(stoi(*it));
+
+		for (size_t i = 0; i < count; i++)
+		{
+			in >> frequency;
+			treeFreq.push_back(frequency);
 		}
+		in.get();
+		in.get();
+
 		std::vector<std::pair<char, unsigned>> charFreqVector;
+
 		std::vector<unsigned> ::iterator it1;
 		std::vector<char> ::iterator it2;
 		for (it1 = treeFreq.begin(), it2 = treeChars.begin(); (it1 != treeFreq.end() && it2 != treeChars.end()); it1++, it2++) {

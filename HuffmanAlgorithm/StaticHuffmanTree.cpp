@@ -21,17 +21,24 @@ StaticHuffmanTree::~StaticHuffmanTree() {
 }
 void StaticHuffmanTree::compressWriteAndPrint(std::ofstream &outf) {
 	printInformation();
+
+
+	std::cout << std::endl;
+	outf << charFreqTable.size() << ' ';
 	for (std::vector<std::pair<char, unsigned>>::iterator it = charFreqTable.begin(); it != charFreqTable.end(); it++)
 	{
-		outf << (*it).first;
+		outf << (int)((*it).first) << ' ';
 	}
 	outf << std::endl;
+
 	for (std::vector<std::pair<char, unsigned>>::iterator it = charFreqTable.begin(); it != charFreqTable.end(); it++)
 	{
 		outf << (*it).second << ' ';
 	}
-	outf << (char)1 << std::endl;
+	outf << std::endl;
+
 	// serialize huffman tree
+
 	for (std::vector<bool>::iterator it = binaryRepresentation.begin(); it != binaryRepresentation.end(); it++)
 	{
 		outf << *it;
